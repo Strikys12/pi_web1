@@ -8,7 +8,7 @@
 </head>
 <body>
   <header class="header">
-    <img src="/src/assets/Imagenes/logo nexus blanco-01.png" alt="Logo" class="logo" />
+    <img src="/src/assets/Imagenes/logo nexus blanco-01.png" alt="Logo" class="logo" id="logoNexus">
     <nav class="nav">
       <input type="text" class="search" placeholder="Buscar..." />
       <button class="portal-btn">Portal del Estudiante</button>
@@ -48,12 +48,16 @@
     </section>
 
     <div class="inscripcion">
-      <a href="/public/Login.html" class="btn-inscripcion">Formulario de Inscripción</a>
+      <!-- Botón de inscripción con confirmación -->
+      <a href="/public/Login.html" class="btn-inscripcion" id="btnInscripcion">Formulario de Inscripción</a>
     </div>
   </main>
 
   <footer class="footer">
     &copy; 2025 Nexus | Todos los derechos reservados
   </footer>
+  
+  <script src="/src/scripts/sistemasinformaticos.js"> </script>
+
 </body>
 </html>

@@ -30,12 +30,12 @@
       <h3 class="text-info" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">PRESELECCIÓN</h3>
       <p class="text-white-50">Formulario de inscripción a programa elegido</p>
 
-      <form>
+      <form id="form">
         <h5 class="text-white mt-4 mb-3">DATOS PERSONALES</h5>
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label text-white">Tipo de identificación *</label>
-            <select class="form-select">
+            <select class="form-select" name="tipoDoc">
               <option>CÉDULA DE CIUDADANÍA</option>
               <option>TARJETA DE IDENTIDAD</option>
               <option>CÉDULA EXTRANJERA</option>
@@ -43,16 +43,16 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Número de identificación *</label>
-            <input type="text" class="form-control" placeholder="INGRESE SU NÚMERO DE IDENTIFICACIÓN" />
+            <input type="text" name="numeroDoc" class="form-control" placeholder="INGRESE SU NÚMERO DE IDENTIFICACIÓN" />
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Fecha de expedición del documento *</label>
-            <input type="date" class="form-control" />
+            <input type="date" name="fechaExpedicion" class="form-control" />
           </div>
 
           <div class="col-md-4">
             <label class="form-label text-white">País Expedición documento *</label>
-            <select class="form-select">
+            <select class="form-select" name="paisExpedicion">
               <option>COLOMBIA</option>
               <option>ARGENTINA</option>
               <option>VENEZUELA</option>
@@ -64,7 +64,7 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Departamento Expedición documento *</label>
-            <select class="form-select">
+            <select class="form-select" name="departamentoExpedicion">
               <option>ANTIOQUIA</option>
               <option>AMAZONIA</option>
               <option>CAUCA</option>
@@ -75,7 +75,7 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Ciudad Expedición documento *</label>
-            <select class="form-select">
+            <select class="form-select" name="ciudadExpedicion">
               <option>MEDELLÍN</option>
               <option>CALI</option>
               <option>MANIZALES</option>
@@ -86,16 +86,16 @@
 
           <div class="col-md-6">
             <label class="form-label text-white">Nombres *</label>
-            <input type="text" class="form-control" placeholder="INGRESE SUS NOMBRES" />
+            <input type="text" class="form-control" name="nombres" placeholder="INGRESE SUS NOMBRES" />
           </div>
           <div class="col-md-6">
             <label class="form-label text-white">Apellidos *</label>
-            <input type="text" class="form-control" placeholder="INGRESE SUS APELLIDOS" />
+            <input type="text" class="form-control" name="apellidos" placeholder="INGRESE SUS APELLIDOS" />
           </div>
 
           <div class="col-md-6">
             <label class="form-label text-white">Género *</label>
-            <select class="form-select">
+            <select class="form-select" name="genero">
               <option>MASCULINO</option>
               <option>FEMENINO</option>
               <option>OTRO</option>
@@ -103,7 +103,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label text-white">Estado Civil *</label>
-            <select class="form-select">
+            <select class="form-select" name="estadoCivil">
               <option>SOLTERO</option>
               <option>CASADO</option>
               <option>UNIÓN LIBRE</option>
@@ -112,7 +112,7 @@
 
           <div class="col-md-4">
             <label class="form-label text-white">País de nacimiento *</label>
-            <select class="form-select">
+            <select class="form-select" name="paisNacimiento">
               <option>COLOMBIA</option>
               <option>ARGENTINA</option>
               <option>VENEZUELA</option>
@@ -123,8 +123,8 @@
             </select>
           </div>
           <div class="col-md-4">
-            <label class="form-label text-white">Departamento Expedición documento *</label>
-            <select class="form-select">
+            <label class="form-label text-white">Departamento de Nacimiento *</label>
+            <select class="form-select" name="departamentoNacimiento">
               <option>ANTIOQUIA</option>
               <option>AMAZONIA</option>
               <option>CAUCA</option>
@@ -135,12 +135,12 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Fecha de nacimiento *</label>
-            <input type="date" class="form-control" />
+            <input type="date" name="fechaNacimiento" class="form-control" />
           </div>
 
           <div class="col-md-4">
             <label class="form-label text-white">Ciudad de nacimiento *</label>
-            <select class="form-select">
+            <select class="form-select" name="ciudadNacimiento">
               <option>MEDELLÍN</option>
               <option>CALI</option>
               <option>MANIZALES</option>
@@ -150,7 +150,7 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Indicativo del país *</label>
-            <select class="form-select">
+            <select class="form-select" name="indicativoPais">
               <option>+57</option>
               <option>+34</option>
               <option>+44</option>
@@ -161,12 +161,12 @@
           </div>
           <div class="col-md-4">
             <label class="form-label text-white">Número de celular *</label>
-            <input type="text" class="form-control" placeholder="INGRESE SU NÚMERO DE CELULAR" />
+            <input type="text" class="form-control" name="numeroCelular" placeholder="INGRESE SU NÚMERO DE CELULAR" />
           </div>
 
            <div class="col-md-6">
             <label class="form-label text-white">Programa al que aspira *</label>
-            <select class="form-select">
+            <select class="form-select" name="primerPrograma">
               <option>DESARROLLO DE SOFTWARE</option>
               <option>ARTE CULINARIO</option>
               <option>SEGURIDAD LABORAL</option>
@@ -177,7 +177,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label text-white">Segundo programa al que aspira *</label>
-            <select class="form-select"> 
+            <select class="form-select" name="segundoPrograma"> 
               <option>ARTE CULINARIO</option>
               <option>DESARROLLO DE SOFTWARE</option>
               <option>SEGURIDAD LABORAL</option>
@@ -218,6 +218,7 @@
   </div>
   <!-- ********* Footer ********** -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+     <script src="/src/scripts/Board/formPreseleccion.js"></script>
+</body> 
 </body>
 </html>

@@ -14,4 +14,4 @@ Se agregan imagenes a la carpeta assets
 Se agrega en la carpeta styles, los códigos CSS.
 
 # cambio 5
-Se anexan carpetas tasks, en la carpeta usuarioAdministrativo, se anexa el código en java POO para el login del personal administrativo.
+Se obtienen datos del formulario de preselección y se realiza la petición con fetch.

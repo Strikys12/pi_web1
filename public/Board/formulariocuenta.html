@@ -22,11 +22,11 @@
         <h2>Registro de Aspirante</h2>
         <p style="color: white;">Ingresa tu información</p>
       </div>
-      <form>
+      <form id="form">
         <div class="input-group">
           <div class="form-field">
             <label for="tipo-doc">Tipo de documento</label>
-            <select id="tipo-doc" required>
+            <select id="tipo-doc" name="tipoDoc">
               <option value="">SELECCIONE</option>
               <option value="cc">Cédula de ciudadanía</option>
               <option value="ce">Cédula de extranjería</option>
@@ -35,34 +35,34 @@
           </div>
           <div class="form-field">
             <label for="numero-doc">Número de documento</label>
-            <input type="text" id="numero-doc" placeholder="INGRESA TU DOCUMENTO" required />
+            <input type="text" name="numeroDoc" id="numero-doc" placeholder="INGRESA TU DOCUMENTO" />
           </div>
         </div>
 
         <div class="form-field">
           <label for="email">Correo electrónico</label>
-          <input type="email" id="email" placeholder="INGRESE SU EMAIL" required />
+          <input type="email" name="email" id="email" placeholder="INGRESE SU EMAIL" />
         </div>
 
         <div class="input-group">
           <div class="form-field">
             <label for="nombres">Nombres</label>
-            <input type="text" id="nombres" placeholder="INGRESE SUS NOMBRES" required />
+            <input type="text" name="nombres" id="nombres" placeholder="INGRESE SUS NOMBRES" />
           </div>
           <div class="form-field">
             <label for="apellidos">Apellidos</label>
-            <input type="text" id="apellidos" placeholder="INGRESE SUS APELLIDOS" required />
+            <input type="text" name="apellidos" id="apellidos" placeholder="INGRESE SUS APELLIDOS"  />
           </div>
         </div>
 
         <div class="input-group">
           <div class="form-field">
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" placeholder="ESCRIBA SU CONTRASEÑA" required />
+            <input type="password" name="contrasena" id="contrasena" placeholder="ESCRIBA SU CONTRASEÑA"  />
           </div>
           <div class="form-field">
             <label for="confirmar">Repita su contraseña</label>
-            <input type="password" id="confirmar" placeholder="REPITA SU CONTRASEÑA" required />
+            <input type="password" name="confirmarcontrasena" id="confirmar" placeholder="REPITA SU CONTRASEÑA"  />
           </div>
         </div>
 
@@ -73,5 +73,6 @@
   </div>
     <!-- ********* Banner ********** -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="/src/scripts/Board/registroUsuarios.js"></script>
 </body>
 </html>

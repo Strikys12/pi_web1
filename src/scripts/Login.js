@@ -1,83 +1,106 @@
-// Referencias a los elementos del DOM
-const estudianteBtn = document.getElementById("btn-estudiante");
-const adminBtn = document.getElementById("btn-admin");
-const contenedor = document.querySelector(".contenedor-login");
-const usuarioInput = document.getElementById("usuario");
-const contrasenaInput = document.getElementById("contrasena");
-const formulario = document.querySelector("form");
-const btnCrearCuenta = document.getElementById("btnCrearCuenta");
+const URL_API_ESTUDIANTE = 'http://127.0.0.1:8000/api/loginEstudiantes';
+const URL_API_ADMIN = 'http://127.0.0.1:8000/api/loginAdministrativo/login'
 
-let rolActual = "estudiante";
+// ----------------------------------------------------
+// Elementos del DOM
+// ----------------------------------------------------
+const form = document.querySelector('#form');
+const btnEstudiante = document.querySelector('#btn-estudiante');
+const btnAdmin = document.querySelector('#btn-admin');
+const btnCrearCuenta = document.querySelector('#btnCrearCuenta');
 
-// Usuarios simulados
-const estudiantes = [
-  { usuario: "estudiante1", clave: "1234" },
-  { usuario: "estudiante2", clave: "abcd" },
-];
+// ----------------------------------------------------
+// Estado Global
+// ----------------------------------------------------
+let tipoUsuario = 'estudiante'; 
+let currentApiUrl = URL_API_ESTUDIANTE;
 
-const administrativos = [
-  { usuario: "admin1", clave: "adminpass" },
-  { usuario: "admin2", clave: "clave456" },
-];
+/**
+ * Cambia la apariencia de los botones, establece la URL de la API
+ * y maneja la visibilidad del botón 'Crear Cuenta'.
+ * @param {string} modo - 'estudiante' o 'admin'
+ */
+function cambiarModo(modo) {
+    tipoUsuario = modo;
 
-// Modo administrativo
-adminBtn.addEventListener("click", () => {
-  adminBtn.classList.add("activo");
-  estudianteBtn.classList.remove("activo");
-  contenedor.classList.add("administrativo");
-  contenedor.classList.remove("estudiante");
+    if (modo === 'estudiante') {
+        btnEstudiante.classList.add('activo');
+        btnAdmin.classList.remove('activo');
+        currentApiUrl = URL_API_ESTUDIANTE;
+        btnCrearCuenta.style.display = 'block'; 
+        console.log("Modo: Estudiante. API:", currentApiUrl);
 
-  usuarioInput.placeholder = "Ingrese su ID administrativo";
-  contrasenaInput.placeholder = "Ingrese su clave institucional";
-
-  rolActual = "administrativo";
-});
-
-// Modo estudiante
-estudianteBtn.addEventListener("click", () => {
-  estudianteBtn.classList.add("activo");
-  adminBtn.classList.remove("activo");
-  contenedor.classList.add("estudiante");
-  contenedor.classList.remove("administrativo");
-
-  usuarioInput.placeholder = "Ingrese su nombre de usuario";
-  contrasenaInput.placeholder = "Ingrese su contraseña";
-
-  rolActual = "estudiante";
-});
-
-// Validación de ingreso
-formulario.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const usuario = usuarioInput.value.trim();
-  const clave = contrasenaInput.value.trim();
-
-  const usuarios = rolActual === "estudiante" ? estudiantes : administrativos;
-  let accesoValido = false;
-
-  for (let i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].usuario === usuario && usuarios[i].clave === clave) {
-      accesoValido = true;
-      break;
+    } else if (modo === 'admin') {
+        btnAdmin.classList.add('activo');
+        btnEstudiante.classList.remove('activo');
+        currentApiUrl = URL_API_ADMIN;
+        btnCrearCuenta.style.display = 'none'; // Los administradores no se registran aquí
+        console.log("Modo: Administrativo. API:", currentApiUrl);
     }
-  }
+}
 
-  if (accesoValido) {
-    alert(`✅ Bienvenido, ${rolActual === "estudiante" ? "Estudiante" : "Personal Administrativo"}!`);
-    
-    if (rolActual === "estudiante") {
-      window.location.href = "/public/Board/preseleccion.html";
-    } else {
-      window.location.href = "/public/Board/Personal Administrativo.html";
+// ----------------------------------------------------
+// 1. Manejo de la Interacción de Botones
+// ----------------------------------------------------
+
+btnEstudiante.addEventListener('click', () => cambiarModo('estudiante'));
+btnAdmin.addEventListener('click', () => cambiarModo('admin'));
+
+// ----------------------------------------------------
+// 2. Manejo de la Redirección a Crear Cuenta
+// ----------------------------------------------------
+
+btnCrearCuenta.addEventListener('click', () => {
+    // Redirige al formulario de registro de aspirantes
+    window.location.href = '/public/Board/formulariocuenta.html'; 
+});
+
+
+// ----------------------------------------------------
+// 3. Manejo del Envío del Formulario (Login)
+// ----------------------------------------------------
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const datos = Object.fromEntries(formData.entries());
+
+    try {
+        // Ejecuta el fetch usando la URL de la API actualmente seleccionada
+        const response = await fetch(currentApiUrl, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(datos),
+        })
+
+        if (!response.ok) {
+            // Si el servidor devuelve 4xx o 5xx, intentamos leer el mensaje de error
+            const errorBody = await response.text();
+            
+            // Lanza el error capturado (incluyendo 401 Unauthorized)
+            throw new Error(`Fallo de Autenticación: Credenciales inválidas o ${errorBody}`);
+        }
+        
+        const data = await response.json();
+
+        console.log('Login Exitoso:', data);
+        
+        // 🚀 LOGIN EXITOSO: Redirigir según el tipo de usuario
+        const destino = tipoUsuario === 'estudiante' ? '/public/Board/preseleccion.html' : '/public/Board/Personal Administrativo.html';
+        alert(`Bienvenido, ${datos.email}! Redirigiendo a su portal.`);
+        window.location.href = destino; 
+        
+    } catch (error) {
+        console.error('Error de Login:', error.message);
+        // Muestra el mensaje de error detallado al usuario
+        alert(`Error al iniciar sesión: ${error.message}`);
     }
-  } else {
-    alert("❌ Usuario o contraseña incorrectos.");
-  }
 });
 
-// Redirección a página de creación de cuenta
-btnCrearCuenta.addEventListener("click", function () {
-  window.location.href = "nexus board/nexus board/formulariocuenta.html"; // Ajusta la ruta si está en otra carpeta
+// Inicializar el modo al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    cambiarModo('estudiante');
 });
-

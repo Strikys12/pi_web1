@@ -22,6 +22,9 @@
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-dark text-white active">Inscripción</a>
         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Histórico proceso de inscripción</a>
+
+        <a href="#" id="logout" class="list-group-item list-group-item-action bg-dark text-white">Cerrar sesión</a>
+        
       </div>
     </div>
 
@@ -191,7 +194,9 @@
     <label for="archivo" class="form-label text-white">Subir archivos</label>
     <input class="form-control" type="file" id="archivo" name="archivo" />
   </div>
-
+           <div id="feedback-message" class="col-12 my-3">
+                <!-- El JavaScript gestiona el contenido y el estilo aquí -->
+            </div>
           <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary mt-3">Registrar datos</button>
           </div>

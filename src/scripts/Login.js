@@ -1,10 +1,10 @@
 // 🛑 CORRECCIÓN CLAVE: Usamos la URL completa del backend de Spring Boot (Puerto 8000).
 // ESTO ES NECESARIO si el Frontend (5501) y el Backend (8000) corren en puertos diferentes.
-const IP_DEL_SERVIDOR = 'http://localhost:8000'; 
+const IP_DEL_SERVIDOR = 'http://localhost:8000';
 
 // 🛑 RUTAS CORREGIDAS: Ahora son solo la parte del path que se añade a la IP.
-const URL_API_ESTUDIANTE = '/api/loginEstudiantes/login'; 
-const URL_API_ADMIN = '/api/loginAdministrativo/login'; 
+const URL_API_ESTUDIANTE = '/api/loginEstudiantes/login';
+const URL_API_ADMIN = '/api/loginAdministrativo/login';
 
 // ----------------------------------------------------
 // Elementos del DOM
@@ -22,44 +22,44 @@ form.parentNode.insertBefore(mensajeError, form.nextSibling); // Lo insertamos d
 // ----------------------------------------------------
 // Estado Global
 // ----------------------------------------------------
-let tipoUsuario = 'estudiante'; 
+let tipoUsuario = 'estudiante';
 let currentApiPath = URL_API_ESTUDIANTE; // Cambiamos el nombre de la variable para ser más claros
 
 /**
- * Muestra un mensaje de error en la interfaz.
- * @param {string} msg - El mensaje de error.
- */
+ * Muestra un mensaje de error en la interfaz.
+ * @param {string} msg - El mensaje de error.
+ */
 function mostrarMensaje(msg, tipo = 'error') {
-    mensajeError.textContent = msg;
-    mensajeError.style.color = tipo === 'exito' ? 'green' : 'red';
+    mensajeError.textContent = msg;
+    mensajeError.style.color = tipo === 'exito' ? 'green' : 'red';
 }
 
 /**
- * Cambia la apariencia de los botones, establece la URL de la API
- * y maneja la visibilidad del botón 'Crear Cuenta'.
- * @param {string} modo - 'estudiante' o 'admin'
- */
+ * Cambia la apariencia de los botones, establece la URL de la API
+ * y maneja la visibilidad del botón 'Crear Cuenta'.
+ * @param {string} modo - 'estudiante' o 'admin'
+ */
 function cambiarModo(modo) {
-    // Si el modo no ha cambiado, salimos
-    if (modo === tipoUsuario) return;
-    
-    tipoUsuario = modo;
-    mostrarMensaje(''); // Limpiamos mensajes
+    // Si el modo no ha cambiado, salimos
+    if (modo === tipoUsuario) return;
 
-    if (modo === 'estudiante') {
-        btnEstudiante.classList.add('activo');
-        btnAdmin.classList.remove('activo');
-        currentApiPath = URL_API_ESTUDIANTE;
-        btnCrearCuenta.style.display = 'block'; 
-        console.log("Modo: Estudiante. API:", IP_DEL_SERVIDOR + currentApiPath);
+    tipoUsuario = modo;
+    mostrarMensaje(''); // Limpiamos mensajes
 
-    } else if (modo === 'admin') {
-        btnAdmin.classList.add('activo');
-        btnEstudiante.classList.remove('activo');
-        currentApiPath = URL_API_ADMIN;
-        btnCrearCuenta.style.display = 'none'; // Los administradores no se registran aquí
-        console.log("Modo: Administrativo. API:", IP_DEL_SERVIDOR + currentApiPath);
-    }
+    if (modo === 'estudiante') {
+        btnEstudiante.classList.add('activo');
+        btnAdmin.classList.remove('activo');
+        currentApiPath = URL_API_ESTUDIANTE;
+        btnCrearCuenta.style.display = 'block';
+        console.log("Modo: Estudiante. API:", IP_DEL_SERVIDOR + currentApiPath);
+
+    } else if (modo === 'admin') {
+        btnAdmin.classList.add('activo');
+        btnEstudiante.classList.remove('activo');
+        currentApiPath = URL_API_ADMIN;
+        btnCrearCuenta.style.display = 'none'; // Los administradores no se registran aquí
+        console.log("Modo: Administrativo. API:", IP_DEL_SERVIDOR + currentApiPath);
+    }
 }
 
 // ----------------------------------------------------
@@ -74,8 +74,8 @@ btnAdmin.addEventListener('click', () => cambiarModo('admin'));
 // ----------------------------------------------------
 
 btnCrearCuenta.addEventListener('click', () => {
-    // Redirige al formulario de registro de aspirantes
-    window.location.href = '/public/Board/formulariocuenta.html'; 
+    // Redirige al formulario de registro de aspirantes
+    window.location.href = '/public/Board/formulariocuenta.html';
 });
 
 
@@ -84,73 +84,73 @@ btnCrearCuenta.addEventListener('click', () => {
 // ----------------------------------------------------
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    mostrarMensaje('Iniciando sesión...', 'info'); // Indicador de carga
+    e.preventDefault();
+    mostrarMensaje('Iniciando sesión...', 'info'); // Indicador de carga
 
-    const formData = new FormData(e.currentTarget);
-    const datos = Object.fromEntries(formData.entries()); 
-    
+    const formData = new FormData(e.currentTarget);
+    const datos = Object.fromEntries(formData.entries());
+
     // 🛑 USO DE LA URL COMPLETA
     const fullUrl = IP_DEL_SERVIDOR + currentApiPath;
 
-    try {
-        const response = await fetch(fullUrl, { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(datos),
-        })
+    try {
+        const response = await fetch(fullUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(datos),
+        })
 
-        if (!response.ok) {
-            // Manejamos códigos de error como 401 Unauthorized y 403 Forbidden
-            let errorText = `Error ${response.status}: `;
-            
-            try {
-                // Si el error es JSON, lo usamos (ej: Credenciales inválidas)
-                const errorBody = await response.json(); 
-                errorText = errorBody.message || response.statusText;
-            } catch (e) {
-                // Si no es JSON (como un 403 o 404 simple), usamos el statusText
-                errorText = response.statusText; 
-            }
+        if (!response.ok) {
+            // Manejamos códigos de error como 401 Unauthorized y 403 Forbidden
+            let errorText = `Error ${response.status}: `;
 
-            // Mensaje específico para credenciales
-            if (response.status === 401) {
-                 errorText = "Credenciales inválidas. Verifica tu email y contraseña.";
-            } else if (response.status === 403) {
-                // Spring Security bloqueando.
-                errorText = "Acceso denegado. Spring Security está bloqueando la solicitud (Error 403).";
-            }
+            try {
+                // Si el error es JSON, lo usamos (ej: Credenciales inválidas)
+                const errorBody = await response.json();
+                errorText = errorBody.message || response.statusText;
+            } catch (e) {
+                // Si no es JSON (como un 403 o 404 simple), usamos el statusText
+                errorText = response.statusText;
+            }
 
-            throw new Error(errorText);
-        }
-        
-        // El servidor respondió 200 OK o 201 Created
-        const data = await response.json();
+            // Mensaje específico para credenciales
+            if (response.status === 401) {
+                errorText = "Credenciales inválidas. Verifica tu email y contraseña.";
+            } else if (response.status === 403) {
+                // Spring Security bloqueando.
+                errorText = "Acceso denegado. Spring Security está bloqueando la solicitud (Error 403).";
+            }
 
-        console.log('Login Exitoso:', data);
-        mostrarMensaje(`Bienvenido, ${datos.email}!`, 'exito');
-        
-        // 🚀 LOGIN EXITOSO: Redirigir según el tipo de usuario
-        const destino = tipoUsuario === 'estudiante' ? 
-            // Estudiante a la preselección
-            '/public/Board/preseleccion.html' : 
-            // Admin al dashboard
-            '/public/Board/Personal Administrativo.html';
-        
-        // Usamos setTimeout para que el usuario vea el mensaje de éxito antes de redirigir
-        setTimeout(() => {
-            window.location.href = destino; 
-        }, 1000); // 1 segundo de espera
-        
-    } catch (error) {
-        console.error('Error de Login:', error.message);
-        mostrarMensaje(`Error al iniciar sesión: ${error.message}`);
-    }
+            throw new Error(errorText);
+        }
+
+        // El servidor respondió 200 OK o 201 Created
+        const data = await response.json();
+
+        console.log('Login Exitoso:', data);
+        mostrarMensaje(`Bienvenido, ${datos.email}!`, 'exito');
+
+        // 🚀 LOGIN EXITOSO: Redirigir según el tipo de usuario
+        const destino = tipoUsuario === 'estudiante' ?
+            // Estudiante a la preselección
+            '/public/Board/preseleccion.html' :
+            // Admin al dashboard
+            '/public/Board/Personal Administrativo.html';
+
+        // Usamos setTimeout para que el usuario vea el mensaje de éxito antes de redirigir
+        setTimeout(() => {
+            window.location.href = destino;
+        }, 1000); // 1 segundo de espera
+
+    } catch (error) {
+        console.error('Error de Login:', error.message);
+        mostrarMensaje(`Error al iniciar sesión: ${error.message}`);
+    }
 });
 
 // Inicializar el modo al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    cambiarModo('estudiante');
+    cambiarModo('estudiante');
 });
